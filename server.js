@@ -1,8 +1,12 @@
 const express = require("express");
 const env = require("dotenv").config();
 const path = require('path');
+const mongoClient = require("mongodb").MongoClient;
+const mongodb = require("./db/connect");
 
 const app = express();
+
+const port = process.env.PORT || 8080;
 
 app
 .use((req, res, next) => {
@@ -13,6 +17,11 @@ app
 .use(express.static(path.join(__dirname, 'public')))
 
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log(`Server is running on port ${process.env.port || 8080}`);
+mongodb.initDb((err, mongodb) => {
+  if (err) {
+    console.log(err);
+  } else {
+    app.listen(port);
+    console.log(`Connected to DB and listening on ${port}`);
+  }
 });

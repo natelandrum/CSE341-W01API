@@ -1,6 +1,10 @@
-const routes = require("express").Router();
+const express = require("express");
+
 const controller = require("../controllers/professional");
 
-routes.get("/professional", controller);
+const router = express.Router();
 
-module.exports = routes;
+router.get("/professional", controller.getData);
+
+
+module.exports = router;
